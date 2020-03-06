@@ -98,8 +98,8 @@ bool checkFirmwareUpdate(const String& url_s, const String& current_version) {
     ESP_LOGI(TAG, "New firmware version detected: %s", remote_version.c_str());
     return true;
   } else {
-    ESP_LOGD(TAG, "Current firmware is latest (current: %s, remote: %s)",
-      current_version.c_str(), remote_version.c_str());
+    ESP_LOGD(TAG, "Firmware remote version: %s", remote_version.c_str());
+    ESP_LOGI(TAG, "Firmware is already up to date (version %s)", current_version.c_str());
   }
   return false;
 }
