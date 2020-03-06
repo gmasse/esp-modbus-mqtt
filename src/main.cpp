@@ -55,10 +55,8 @@ extern "C" {
 static const char *HOSTNAME = "esp-mm-a2kycmFlbXU1cGFn";
 static const char __attribute__((__unused__)) *TAG = "Main";
 
-
 // static const char *FIRMWARE_URL = "https://domain.com/path/file.bin";
-static const char *FIRMWARE_VERSION = "000.000.016";
-
+static const char *FIRMWARE_VERSION = "000.000.019";
 
 // instanciate AsyncMqttClient object
 AsyncMqttClient mqtt_client;
@@ -153,7 +151,8 @@ void onMqttMessage(char *topic, char *payload,
   ESP_LOGV(TAG, "Message received (topic=%s, qos=%d, dup=%d, retain=%d, len=%d, index=%d, total=%d): %s",
     topic, properties.qos, properties.dup, properties.retain, len, index, total, payload);
 
-  String suffix = String(topic).substring(1 + strlen(MQTT_TOPIC) + 7);  // "/action" = 7 characters
+  String suffix = String(topic).substring(strlen(MQTT_TOPIC) + strlen(HOSTNAME) + 9);
+          // substring(1 + strlen(MQTT_TOPIC) + strlen("/") + strlen(HOSTNAME) + strlen("/") + strlen("action"))
   ESP_LOGV(TAG, "MQTT topic suffix=%s", suffix.c_str());
 
   if (suffix == "upgrade") {
@@ -235,6 +234,7 @@ void runOtaUpdateTask(void * pvParameters) {
         ESP.restart();
       } else {
         ESP_LOGV(TAG, "OTA update failed. Restarting Modbus Poller");
+// TODO(gmasse): retry?
         vTaskResume(modbus_poller_task_handler);
         if (xTimerStart(modbus_poller_timer, 10) == pdFAIL) {
           ESP_LOGE(TAG, "Unable to restart Modbus Poller timer after OTA update failure.");
