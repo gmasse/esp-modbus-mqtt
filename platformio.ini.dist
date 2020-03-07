@@ -30,17 +30,14 @@ modbus_baudrate = 9600
 modbus_unit = 10
 modbus_retries = 2
 modbus_scanrate = 30
-mqtt_host_ip = 91.121.178.219
+mqtt_host_ip = AAA.BBB.CCC.DDD
 mqtt_port = 1883
 mqtt_topic = diematic
 
 [env:fm-devkit]
 platform = espressif32
-;platform = https://github.com/platformio/platform-espressif32
 board = fm-devkit
 framework = arduino
-;platform_packages =
-;    framework-arduinoespressif32 @ https://github.com/espressif/arduino-esp32.git
 ;upload_port = /dev/tty.SLAB_USBtoUART
 ;monitor_port = /dev/tty.SLAB_USBtoUART
 upload_port = /dev/ttyUSB0
