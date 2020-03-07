@@ -56,7 +56,7 @@ static const char *HOSTNAME = "esp-mm-a2kycmFlbXU1cGFn";
 static const char __attribute__((__unused__)) *TAG = "Main";
 
 // static const char *FIRMWARE_URL = "https://domain.com/path/file.bin";
-static const char *FIRMWARE_VERSION = "000.000.019";
+static const char *FIRMWARE_VERSION = "000.000.021";
 
 // instanciate AsyncMqttClient object
 AsyncMqttClient mqtt_client;
@@ -339,7 +339,7 @@ void setup() {
 #ifndef MODBUS_DISABLED
   initModbus();
 
-  xTaskCreate(runModbusPollerTask, "modbus_poller", 5600, NULL, 1, &modbus_poller_task_handler);
+  xTaskCreate(runModbusPollerTask, "modbus_poller", 5900, NULL, 1, &modbus_poller_task_handler);
   configASSERT(modbus_poller_task_handler);
 
   modbus_poller_timer = xTimerCreate("modbus_poller_timer", pdMS_TO_TICKS(MODBUS_SCANRATE*1000), pdTRUE, NULL,

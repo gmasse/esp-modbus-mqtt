@@ -142,6 +142,7 @@ bool decodeDiematicDecimal(uint16_t int_input, int8_t decimals, float *value_ptr
       output = -output;
     }
     *value_ptr = output / pow(10, decimals);
+    ESP_LOGV(TAG, "Decoded value: %f", *value_ptr);
     return true;
   }
 }
@@ -172,6 +173,10 @@ void readModbusRegisterToJson(uint16_t register_id, ArduinoJson::JsonVariant var
           case REGISTER_TYPE_BITFIELD:
             for (uint8_t j = 0; j < 16; ++j) {
               const char *bit_varname = registers[i].optional_param.bitfield[j];
+              if (bit_varname == nullptr) {
+                ESP_LOGV(TAG, " [bit%02d] end of bitfield reached", j);
+                break;
+              }
               const uint8_t bit_value = raw_value >> j & 1;
               ESP_LOGV(TAG, " [bit%02d] %s=%d", j, bit_varname, bit_value);
               variant[bit_varname] = bit_value;
