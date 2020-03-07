@@ -105,8 +105,12 @@ const modbus_register_t registers[] = {
     { 606, MODBUS_TYPE_HOLDING, REGISTER_TYPE_DIEMATIC_ONE_DECIMAL, "temperature_circuit_c" },
     { 610, MODBUS_TYPE_HOLDING, REGISTER_TYPE_DIEMATIC_ONE_DECIMAL, "pressure" },
     { 614, MODBUS_TYPE_HOLDING, REGISTER_TYPE_DIEMATIC_ONE_DECIMAL, "temperature_ambiant_circuit_a" },
+    { 615, MODBUS_TYPE_HOLDING, REGISTER_TYPE_DIEMATIC_ONE_DECIMAL, "temperature_computed_circuit_a" },
     { 616, MODBUS_TYPE_HOLDING, REGISTER_TYPE_DIEMATIC_ONE_DECIMAL, "temperature_ambiant_circuit_b" },
+    { 617, MODBUS_TYPE_HOLDING, REGISTER_TYPE_DIEMATIC_ONE_DECIMAL, "temperature_computed_circuit_b" },
     { 618, MODBUS_TYPE_HOLDING, REGISTER_TYPE_DIEMATIC_ONE_DECIMAL, "temperature_ambiant_circuit_c" },
+    { 619, MODBUS_TYPE_HOLDING, REGISTER_TYPE_DIEMATIC_ONE_DECIMAL, "temperature_computed_circuit_c" },
+    { 620, MODBUS_TYPE_HOLDING, REGISTER_TYPE_DIEMATIC_ONE_DECIMAL, "temperature_computed_boiler" },
     { 700, MODBUS_TYPE_HOLDING, REGISTER_TYPE_BITFIELD, "bits_base", { .bitfield = {
             "io_pump_aux",
             "io_pump_boiler_1",
