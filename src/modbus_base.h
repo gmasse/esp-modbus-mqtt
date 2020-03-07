@@ -21,14 +21,11 @@
 
 #include <ModbusMaster.h>
 #include <ArduinoJson.h>
-#include <modbus_registers.h>
 
 void preTransmission();
 void postTransmission();
 void initModbus();
-bool getModbusResultMsg(ModbusMaster *node, uint8_t result);
-bool getModbusValue(uint16_t register_id, modbus_entity_t modbus_entity, uint16_t *value_ptr);
-bool decodeDiematicDecimal(uint16_t int_input, int8_t decimals, float *value_ptr);
+void readModbusRegisterToJson(uint16_t register_id, ArduinoJson::JsonVariant variant);
 void parseModbusToJson(ArduinoJson::JsonVariant variant);
 
 #endif  // SRC_MODBUS_BASE_H_

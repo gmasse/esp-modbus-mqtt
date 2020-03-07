@@ -16,12 +16,13 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#include "modbus_base.h"
+#include "modbus_registers.h"
+
 #include "Arduino.h"
 #include <ModbusMaster.h>
 #include <ArduinoJson.h>
-#include <modbus_registers.h>
 
-#include "modbus_base.h"
 
 static const char __attribute__((__unused__)) *TAG = "Modbus_base";
 
@@ -65,7 +66,7 @@ void initModbus() {
   }
 }
 
-bool getModbusResultMsg(ModbusMaster *node, uint8_t result) {
+bool _getModbusResultMsg(ModbusMaster *node, uint8_t result) {
   String tmpstr2 = "";
   switch (result) {
     case node->ku8MBSuccess:
@@ -103,7 +104,7 @@ bool getModbusResultMsg(ModbusMaster *node, uint8_t result) {
   return false;
 }
 
-bool getModbusValue(uint16_t register_id, modbus_entity_t modbus_entity, uint16_t *value_ptr) {
+bool _getModbusValue(uint16_t register_id, modbus_entity_t modbus_entity, uint16_t *value_ptr) {
   ESP_LOGD(TAG, "Requesting data");
   for (uint8_t i = 1; i <= MODBUS_RETRIES + 1; ++i) {
     ESP_LOGV(TAG, "Trial %d/%d", i, MODBUS_RETRIES + 1);
@@ -111,7 +112,7 @@ bool getModbusValue(uint16_t register_id, modbus_entity_t modbus_entity, uint16_
       case MODBUS_TYPE_HOLDING:
         uint8_t result;
         result = modbus_client.readHoldingRegisters(register_id, 1);
-        if (getModbusResultMsg(&modbus_client, result)) {
+        if (_getModbusResultMsg(&modbus_client, result)) {
           *value_ptr = modbus_client.getResponseBuffer(0);
           ESP_LOGV(TAG, "Data read: %x", *value_ptr);
           return true;
@@ -130,7 +131,16 @@ bool getModbusValue(uint16_t register_id, modbus_entity_t modbus_entity, uint16_
   return false;
 }
 
-bool decodeDiematicDecimal(uint16_t int_input, int8_t decimals, float *value_ptr) {
+String _toBinary(uint16_t input) {
+    String output;
+    while (input != 0) {
+      output = (input % 2 == 0 ? "0" : "1") + output;
+      input /= 2;
+    }
+    return output;
+}
+
+bool _decodeDiematicDecimal(uint16_t int_input, int8_t decimals, float *value_ptr) {
   ESP_LOGV(TAG, "Decoding %#x with %d decimal(s)", int_input, decimals);
   if (int_input == 65535) {
     value_ptr = nullptr;
@@ -158,16 +168,20 @@ void readModbusRegisterToJson(uint16_t register_id, ArduinoJson::JsonVariant var
       // register found
       ESP_LOGD(TAG, "Register id=%d type=0x%x name=%s", registers[i].id, registers[i].type, registers[i].name);
       uint16_t raw_value;
-      if (getModbusValue(registers[i].id, registers[i].modbus_entity, &raw_value)) {
+      if (_getModbusValue(registers[i].id, registers[i].modbus_entity, &raw_value)) {
         ESP_LOGV(TAG, "Raw value: %s=%#06x", registers[i].name, raw_value);
         switch (registers[i].type) {
+          case REGISTER_TYPE_U16:
+            ESP_LOGV(TAG, "Value: %u", static_cast<uint16_t>(raw_value));
+            variant[registers[i].name] = static_cast<uint16_t>(raw_value);
+            break;
           case REGISTER_TYPE_DIEMATIC_ONE_DECIMAL:
             float final_value;
-            if (decodeDiematicDecimal(raw_value, 1, &final_value)) {
-              ESP_LOGV(TAG, "VALUE: %.1f", final_value);
+            if (_decodeDiematicDecimal(raw_value, 1, &final_value)) {
+              ESP_LOGV(TAG, "Value: %.1f", final_value);
               variant[registers[i].name] = final_value;
             } else {
-              ESP_LOGD(TAG, "VALUE: Invalid Diematic value");
+              ESP_LOGD(TAG, "Value: Invalid Diematic value");
             }
             break;
           case REGISTER_TYPE_BITFIELD:
@@ -181,6 +195,9 @@ void readModbusRegisterToJson(uint16_t register_id, ArduinoJson::JsonVariant var
               ESP_LOGV(TAG, " [bit%02d] %s=%d", j, bit_varname, bit_value);
               variant[bit_varname] = bit_value;
             }
+            break;
+          case REGISTER_TYPE_DEBUG:
+            ESP_LOGI(TAG, "Raw DEBUG value: %s=%#06x %s", registers[i].name, raw_value, _toBinary(raw_value).c_str());
             break;
           default:
             // Unsupported type

@@ -56,7 +56,7 @@ static const char *HOSTNAME = "esp-mm-a2kycmFlbXU1cGFn";
 static const char __attribute__((__unused__)) *TAG = "Main";
 
 // static const char *FIRMWARE_URL = "https://domain.com/path/file.bin";
-static const char *FIRMWARE_VERSION = "000.000.021";
+static const char *FIRMWARE_VERSION = "000.000.022";
 
 // instanciate AsyncMqttClient object
 AsyncMqttClient mqtt_client;
