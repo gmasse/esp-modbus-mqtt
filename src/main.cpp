@@ -313,7 +313,7 @@ void setup() {
 */
 
   ESP_LOGI(TAG, "*********************************************************************");
-  ESP_LOGI(TAG, "Firmware version %s", FIRMWARE_VERSION);
+  ESP_LOGI(TAG, "Firmware version %s (compiled at %s %s)", FIRMWARE_VERSION, __DATE__, __TIME__);
   ESP_LOGV(TAG, "Watchdog time-out: %ds", CONFIG_TASK_WDT_TIMEOUT_S);
 
   mqtt_reconnect_timer = xTimerCreate("mqtt_timer", pdMS_TO_TICKS(2000), pdFALSE,
