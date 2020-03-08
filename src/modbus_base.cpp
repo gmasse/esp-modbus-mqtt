@@ -172,8 +172,8 @@ void readModbusRegisterToJson(uint16_t register_id, ArduinoJson::JsonVariant var
         ESP_LOGV(TAG, "Raw value: %s=%#06x", registers[i].name, raw_value);
         switch (registers[i].type) {
           case REGISTER_TYPE_U16:
-            ESP_LOGV(TAG, "Value: %u", static_cast<uint16_t>(raw_value));
-            variant[registers[i].name] = static_cast<uint16_t>(raw_value);
+            ESP_LOGV(TAG, "Value: %u", raw_value);
+            variant[registers[i].name] = raw_value;
             break;
           case REGISTER_TYPE_DIEMATIC_ONE_DECIMAL:
             float final_value;
