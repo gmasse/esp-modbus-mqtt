@@ -1,5 +1,11 @@
 # esp-modbus-mqtt
 
+## TODO
+- [ ] Configuration (Wifi credentials) Reset
+- [ ] Factory Firmware
+- [ ] Secure Boot
+
+## FAQ
 #### Passing environment variables via VS Code
 Edit `.vscode/settings.json` and add the following lines:
 ```
