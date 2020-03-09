@@ -86,7 +86,6 @@ void resetWiFi() {
 
 void connectToWifi() {
   ESP_LOGD(TAG, "Connecting to '%s'", WIFI_SSID);
-  // WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   WiFi.begin();
 }
 
