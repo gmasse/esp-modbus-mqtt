@@ -1,4 +1,5 @@
 env:
+  global:
     - PIO_FIRMWARE_URL="http://foo.bar/firmware.com"
     - PIO_MQTT_HOST_IP=127.0.0.1
     - PIO_MQTT_PORT=1883
@@ -6,21 +7,21 @@ env:
 
 language: python
 python:
-    - "3.7"
+  - "3.7"
 
 sudo: false
 cache:
-    directories:
-        - "~/.platformio"
+  directories:
+    - "~/.platformio"
 
 before_script:
-    - cp platformio.ini.dist platformio.ini
+  - cp platformio.ini.dist platformio.ini
 
 install:
-    - pip install -U cpplint
-    - pip install -U platformio
-    - platformio update
+  - pip install -U cpplint
+  - pip install -U platformio
+  - platformio update
 
 script:
-    - cpplint --recursive src include lib test
-    - platformio run
+  - cpplint --recursive src include lib test
+  - platformio run
