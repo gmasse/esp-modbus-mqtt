@@ -23,5 +23,5 @@ install:
   - platformio update
 
 script:
-  - cpplint --recursive src include lib test
+  - cpplint --recursive src include lib
   - platformio run
