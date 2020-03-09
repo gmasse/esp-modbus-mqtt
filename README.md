@@ -1,5 +1,13 @@
 # esp-modbus-mqtt
 
+#### Passing environment variables via VS Code
+Edit `.vscode/settings.json` and add the following lines:
+```
+  "terminal.integrated.env.osx": {
+    "PIO_FIRMWARE_URL": "https://url/firmware.bin"
+  },
+```
+
 #### Flashing firmware
 ```
 cp .plateformio/packages/framework-arduinoespressif32/tools/sdk/bin/bootloader_dio_40m.bin .

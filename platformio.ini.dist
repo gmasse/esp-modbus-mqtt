@@ -17,10 +17,6 @@ lib_deps_external =
 [extra]
 monitor_speed = 115200
 firmware_url = ${sysenv.PIO_FIRMWARE_URL}
-; wifi_ssid = ***
-; wifi_password = ***
-wifi_ssid = ${sysenv.PIO_WIFI_SSID}
-wifi_password = ${sysenv.PIO_WIFI_PASSWORD}
 modbus_rxd = 27
 modbus_txd = 26
 modbus_rts = 25
@@ -48,8 +44,6 @@ build_flags =
 ;  '-DMODBUS_DISABLED'
   '-DCORE_DEBUG_LEVEL=3'
   '-DFIRMWARE_URL="${extra.firmware_url}"'
-  '-DWIFI_SSID="${extra.wifi_ssid}"'
-  '-DWIFI_PASSWORD="${extra.wifi_password}"'
   '-DMONITOR_SPEED=${extra.monitor_speed}'
   '-DRXD=${extra.modbus_rxd}'
   '-DTXD=${extra.modbus_txd}'
