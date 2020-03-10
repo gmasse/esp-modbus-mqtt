@@ -27,9 +27,9 @@ modbus_baudrate = 9600
 modbus_unit = 10
 modbus_retries = 2
 modbus_scanrate = 30
-mqtt_host_ip = AAA.BBB.CCC.DDD
-mqtt_port = 1883
-mqtt_topic = diematic
+mqtt_host_ip = ${sysenv.PIO_MQTT_HOST_IP}
+mqtt_port = ${sysenv.PIO_MQTT_PORT}
+mqtt_topic = ${sysenv.PIO_MQTT_TOPIC}
 
 [env:fm-devkit]
 platform = espressif32

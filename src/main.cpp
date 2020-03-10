@@ -44,20 +44,11 @@ extern "C" {
 #include <modbus_base.h>
 #endif  // MODBUS_DISABLED
 
-
-/* The following symbols are passed via BUILD parameters
-#define MONITOR_SPEED 115200
-
-#define MQTT_HOST IPAddress(192, 168, 0, 2)
-#define MQTT_PORT 1883
-#define MQTT_TOPIC "diematic"
-*/
-
 static char HOSTNAME[24] = "ESP-MM-FFFFFFFFFFFFFFFF";
 static const char __attribute__((__unused__)) *TAG = "Main";
 
 // static const char *FIRMWARE_URL = "https://domain.com/path/file.bin";
-static const char *FIRMWARE_VERSION = "000.000.023";
+static const char *FIRMWARE_VERSION = "000.000.024";
 
 // instanciate WiFiManager object
 WiFiManager wifiManager;
