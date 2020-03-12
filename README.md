@@ -49,7 +49,10 @@ NB: ESP32 pins are configurable at compilation time.
 Edit `.vscode/settings.json` and add the following lines:
 ```
   "terminal.integrated.env.osx": {
-    "PIO_FIRMWARE_URL": "https://url/firmware.bin"
+    "PIO_FIRMWARE_URL": "https://url/firmware.bin",
+    "PIO_MQTT_HOST_IP": "11.22.33.44",
+    "PIO_MQTT_PORT": "1883",
+    "PIO_MQTT_TOPIC": "mytopic"
   },
 ```
 
