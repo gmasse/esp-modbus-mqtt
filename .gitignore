@@ -7,3 +7,4 @@ platformio.ini
 .vscode/settings.json
 .vscode/ipch
 .env
+venv/
