@@ -40,7 +40,28 @@ ESP32                         |     RS-485    |     RS485 bus side
 ```
 NB: ESP32 pins are configurable at compilation time.
 
+## Compilation
+
+```
+git clone https://github.com/gmasse/esp-modbus-mqtt.git
+cd esp-modbus-mqtt
+python3 -m venv venv
+pip install -U platformio
+hash -r
+cp platformio.ini.dist platformio.ini
+(edit platformio.ini if needed)
+export PIO_FIRMWARE_URL="http://domain.com/firmware.bin"
+export PIO_MQTT_HOST_IP=11.22.33.44
+export PIO_MQTT_PORT=1883
+export PIO_MQTT_TOPIC=mytopic
+platformio run
+```
+
+Built firmware will be at `.pio/build/fm-devkit/firmware.bin`
+You can upload to ESP with: `platformio run upload`
+
 ## TODO
+
 - [ ] Configuration (Wifi credentials) Reset
 - [ ] Factory Firmware
 - [ ] Secure Boot
