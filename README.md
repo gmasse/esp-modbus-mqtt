@@ -1,5 +1,45 @@
 # esp-modbus-mqtt
 
+A Modbus RTU (RS285) to MQTT Gateway (based on ESP32)
+
+
+## Circuit
+
+Auto-switching UART-to-RS485 converter:
+```
+
+                   VCC ---------------+
+                                      |
+                              +-------x-------+
+        (PIN27)    RXD <------| RX            |
+                              |      UART    B|----------<> B
+        (PIN26)    TXD ------>| TX    TO      |
+ESP32                         |     RS-485    |     RS485 bus side
+                              |               |
+                              |              A|----------<> A
+                              |               |
+                              +-------x-------+
+                                      |
+                                     GND
+```
+Manual switching UART-to-RS485 converter:
+```
+                   VCC ---------------+
+                                      |
+                              +-------x-------+
+        (PIN27)    RXD <------| R             |
+                              |      UART    B|----------<> B
+        (PIN26)    TXD ------>| D     TO      |
+ESP32                         |     RS-485    |     RS485 bus side
+        (PIN25)    RTS --+--->| DE            |
+                         |    |              A|----------<> A
+                         +----| /RE           |
+                              +-------x-------+
+                                      |
+                                     GND
+```
+NB: ESP32 pins are configurable at compilation time.
+
 #### Flashing firmware
 ```
 cp .plateformio/packages/framework-arduinoespressif32/tools/sdk/bin/bootloader_dio_40m.bin .
