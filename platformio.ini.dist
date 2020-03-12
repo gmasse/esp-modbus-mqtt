@@ -13,14 +13,11 @@ lib_deps_external =
   ModbusMaster@~2.0.1
   AsyncMqttClient@~0.8.2
   ArduinoJson@~6.14.1
+  https://github.com/tzapu/WiFiManager.git#4a98ba0e29606c684e66fa80e53f1293a269540b
 
 [extra]
 monitor_speed = 115200
 firmware_url = ${sysenv.PIO_FIRMWARE_URL}
-; wifi_ssid = ***
-; wifi_password = ***
-wifi_ssid = ${sysenv.PIO_WIFI_SSID}
-wifi_password = ${sysenv.PIO_WIFI_PASSWORD}
 modbus_rxd = 27
 modbus_txd = 26
 modbus_rts = 25
@@ -30,9 +27,9 @@ modbus_baudrate = 9600
 modbus_unit = 10
 modbus_retries = 2
 modbus_scanrate = 30
-mqtt_host_ip = AAA.BBB.CCC.DDD
-mqtt_port = 1883
-mqtt_topic = diematic
+mqtt_host_ip = ${sysenv.PIO_MQTT_HOST_IP}
+mqtt_port = ${sysenv.PIO_MQTT_PORT}
+mqtt_topic = ${sysenv.PIO_MQTT_TOPIC}
 
 [env:fm-devkit]
 platform = espressif32
@@ -48,8 +45,6 @@ build_flags =
 ;  '-DMODBUS_DISABLED'
   '-DCORE_DEBUG_LEVEL=3'
   '-DFIRMWARE_URL="${extra.firmware_url}"'
-  '-DWIFI_SSID="${extra.wifi_ssid}"'
-  '-DWIFI_PASSWORD="${extra.wifi_password}"'
   '-DMONITOR_SPEED=${extra.monitor_speed}'
   '-DRXD=${extra.modbus_rxd}'
   '-DTXD=${extra.modbus_txd}'

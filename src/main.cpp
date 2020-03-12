@@ -36,6 +36,7 @@ extern "C" {
 
 #include <ArduinoJson.h>
 #include <AsyncMqttClient.h>
+#include <WiFiManager.h>
 
 #include <Url.h>
 #include "esp_base.h"
@@ -43,20 +44,14 @@ extern "C" {
 #include <modbus_base.h>
 #endif  // MODBUS_DISABLED
 
-
-/* The following symbols are passed via BUILD parameters
-#define MONITOR_SPEED 115200
-
-#define MQTT_HOST IPAddress(192, 168, 0, 2)
-#define MQTT_PORT 1883
-#define MQTT_TOPIC "diematic"
-*/
-
-static const char *HOSTNAME = "esp-mm-a2kycmFlbXU1cGFn";
+static char HOSTNAME[24] = "ESP-MM-FFFFFFFFFFFFFFFF";
 static const char __attribute__((__unused__)) *TAG = "Main";
 
 // static const char *FIRMWARE_URL = "https://domain.com/path/file.bin";
-static const char *FIRMWARE_VERSION = "000.000.023";
+static const char *FIRMWARE_VERSION = "000.000.024";
+
+// instanciate WiFiManager object
+WiFiManager wifiManager;
 
 // instanciate AsyncMqttClient object
 AsyncMqttClient mqtt_client;
@@ -82,7 +77,7 @@ void resetWiFi() {
 
 void connectToWifi() {
   ESP_LOGD(TAG, "Connecting to '%s'", WIFI_SSID);
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  WiFi.begin();
 }
 
 void connectToMqtt() {
@@ -312,9 +307,12 @@ void setup() {
   ESP_LOGV(TAG, "Verbose");
 */
 
+  snprintf(HOSTNAME, sizeof(HOSTNAME), "ESP-MM-%llX", ESP.getEfuseMac());  // setting hostname
+
   ESP_LOGI(TAG, "*********************************************************************");
-  ESP_LOGI(TAG, "Firmware version %s", FIRMWARE_VERSION);
+  ESP_LOGI(TAG, "Firmware version %s (compiled at %s %s)", FIRMWARE_VERSION, __DATE__, __TIME__);
   ESP_LOGV(TAG, "Watchdog time-out: %ds", CONFIG_TASK_WDT_TIMEOUT_S);
+  ESP_LOGI(TAG, "Hostname: %s", HOSTNAME);
 
   mqtt_reconnect_timer = xTimerCreate("mqtt_timer", pdMS_TO_TICKS(2000), pdFALSE,
     NULL, reinterpret_cast<TimerCallbackFunction_t>(connectToMqtt));
@@ -334,7 +332,7 @@ void setup() {
   mqtt_ip.fromString(MQTT_HOST_IP);
   mqtt_client.setServer(mqtt_ip, MQTT_PORT);
 
-  connectToWifi();
+  wifiManager.autoConnect();
 
 #ifndef MODBUS_DISABLED
   initModbus();

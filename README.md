@@ -1,7 +1,6 @@
 # esp-modbus-mqtt
 
-A Modbus RTU (RS285) to MQTT Gateway (based on ESP32)
-
+A Modbus RTU (RS-485) to MQTT Gateway (based on ESP32)
 
 ## Circuit
 
@@ -39,6 +38,20 @@ ESP32                         |     RS-485    |     RS485 bus side
                                      GND
 ```
 NB: ESP32 pins are configurable at compilation time.
+
+## TODO
+- [ ] Configuration (Wifi credentials) Reset
+- [ ] Factory Firmware
+- [ ] Secure Boot
+
+## FAQ
+#### Passing environment variables via VS Code
+Edit `.vscode/settings.json` and add the following lines:
+```
+  "terminal.integrated.env.osx": {
+    "PIO_FIRMWARE_URL": "https://url/firmware.bin"
+  },
+```
 
 #### Flashing firmware
 ```
