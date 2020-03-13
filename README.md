@@ -40,6 +40,58 @@ ESP32                         |     RS-485    |     RS485 bus side
 ```
 NB: ESP32 pins are configurable at compilation time.
 
+## Modbus
+
+Device acts as Modbus Master, regurlaly polling a list of registers from a Modbus Slave.
+
+List of Modbus parameters (in `platformio.ini` file):
+ - `modbus_rxd`: RX/R pin number (default: `27`)
+ - `modbus_txd`: TX/D pin number (default: `26`)
+ - `modbus_rts`: DE/RE pin number (default: `25`). If you don't need RTS, use `NOT_A_PIN` value.
+ - `modbus_baudrate` (default: `9600`)
+ - `modbus_unit`: Modbus Slave ID (default: `10`);
+ - `modbus_retries`: if a Modbus request fails, number of retries before passing to the next register (default: `2`)
+ - `modbus_scanrate`: the device will attempt to poll the slave every XX seconds (default: `30`)
+
+Registers list is defined by the array `registers[]` in `src/modbus_registers.h`.
+A very simple example would be:
+```
+const modbus_register_t registers[] = {
+    { 123, MODBUS_TYPE_HOLDING, REGISTER_TYPE_U16, "value_123" },
+    { 124, MODBUS_TYPE_HOLDING, REGISTER_TYPE_U16, "value_124" }
+};
+```
+Where:
+ - `123` and `124` are register address to read,
+ - `MODBUS_TYPE_HOLDING` is the Modbus object type to read,
+ - `REGISTER_TYPE_U16` is the expected format of the returned value,
+ - `value_123` and `value_124` are the name in the JSON MQTT message
+
+#### Supported Modbus objects:
+ - `HOLDING` type is supported and has been tested
+ - `INPUT`, `COIL`, `DISCRETE` and `COUNT` has not been tested but should work
+
+#### Supported returned Value:
+ - `REGISTER_TYPE_U16`: unsigned 16-bit integer
+ - `REGISTER_TYPE_BITFIELD`: a sequence of 16 (or less) single bits; the first item maps the least significant bit
+ - `REGISTER_TYPE_DIEMATIC_ONE_DECIMAL`: a specific De-Dietrich signed decimal implementation
+ - `REGISTER_TYPE_DEBUG`: hexadecimal value only visible in INFO logs (not sent in MQTT message)
+ - other types are not supported (TODO src/modbus_base.cpp:readModbusRegisterToJson)
+
+## MQTT
+
+MQTT parameters are passed through environment variables:
+ - `PIO_MQTT_HOST_IP`: MQTT broker IPv4
+ - `PIO_MQTT_PORT`: MQTT broker port
+ - `PIO_MQTT_TOPIC`: root prefix of the published topic
+
+With `PIO_MQTT_TOPIC=MyTopic`, based on the register list example above, the published MQTT message will be:
+```
+Topic: MyTopic/ESP-MM-ABCDEF012345/data
+Message: {"value_123":0,"value_124":65536}
+```
+Where `ABCDEF012345` is the ESP unique Chip ID.
+
 ## Compilation
 
 ```
