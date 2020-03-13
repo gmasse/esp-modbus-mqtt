@@ -63,8 +63,10 @@ You can upload to ESP with: `platformio run upload`
 ## TODO
 
 - [ ] Configuration (Wifi credentials) Reset
-- [ ] Factory Firmware
+- [ ] Factory Firmware (https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/bootloader.html)
 - [ ] Secure Boot
+- [ ] Moving to ESP-IDF Framework
+- [ ] Log level update at runtime
 
 ## FAQ
 #### Passing environment variables via VS Code
