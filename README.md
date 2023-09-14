@@ -1,7 +1,6 @@
-# esp-modbus-mqtt
-[![Build Status](https://travis-ci.com/gmasse/esp-modbus-mqtt.svg?branch=master)](https://travis-ci.com/gmasse/esp-modbus-mqtt)
+![esp-modbus-mqtt: A Modbus RTU (RS-485) to MQTT Gateway (based on ESP32)](./assets/banner.png)
 
-A Modbus RTU (RS-485) to MQTT Gateway (based on ESP32)
+[![Build Status](https://travis-ci.com/gmasse/esp-modbus-mqtt.svg?branch=master)](https://travis-ci.com/gmasse/esp-modbus-mqtt)
 
 ## Circuit
 
