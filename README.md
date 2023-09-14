@@ -98,6 +98,7 @@ Where `ABCDEF012345` is the ESP unique Chip ID.
 git clone https://github.com/gmasse/esp-modbus-mqtt.git
 cd esp-modbus-mqtt
 python3 -m venv venv
+source venv/bin/activate
 pip install -U platformio
 hash -r
 cp platformio.ini.dist platformio.ini
