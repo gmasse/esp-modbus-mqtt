@@ -1,0 +1,28 @@
+name: CI
+
+on: [push]
+
+env:
+  PIO_FIRMWARE_URL: "http://foo.bar/firmware.com"
+  PIO_MQTT_HOST_IP: 127.0.0.1
+  PIO_MQTT_PORT: 1883
+  PIO_MQTT_TOPIC: topic
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel cpplint platformio
+          cp platformio.ini.dist platformio.ini
+          pio pkg update
+      - name: Lint
+        run: cpplint --recursive src include lib
+      - name: Compile
+        run: platformio run
