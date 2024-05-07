@@ -10,10 +10,10 @@
 
 [common]
 lib_deps_external =
-  ModbusMaster@~2.0.1
-  AsyncMqttClient@~0.8.2
-  ArduinoJson@~6.14.1
-  https://github.com/tzapu/WiFiManager.git#4a98ba0e29606c684e66fa80e53f1293a269540b
+  4-20ma/ModbusMaster@~2.0.1
+  marvinroger/AsyncMqttClient@~0.9.0
+  bblanchon/ArduinoJson@~7.0.4
+  https://github.com/tzapu/WiFiManager.git#v2.0.17
 
 [extra]
 monitor_speed = 115200
